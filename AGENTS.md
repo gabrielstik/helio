@@ -1,4 +1,4 @@
-# Logiciel photos
+# Helio
 
 SaaS pour photographes : un CRM en kanban et des galeries clients. Le cahier des charges est le doc
 « Logiciel photos : fonctionnalités et user stories » (https://claude.ai/artifact/St5rxdsB2LbZ1tbnNwCpug).

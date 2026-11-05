@@ -1,4 +1,4 @@
-# Logiciel photos
+# Helio
 
 CRM en kanban et galeries clients pour photographes. Voir `AGENTS.md` pour l'architecture et les rôles.
 

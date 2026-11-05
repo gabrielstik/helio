@@ -131,6 +131,142 @@ body {
   gap: var(--spacing-4);
 }
 
+/* Vue d'ensemble : quatre chiffres, puis l'agenda à gauche et les tâches à droite. */
+.lp-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.lp-overview-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: var(--spacing-6);
+  align-items: start;
+}
+
+@media (max-width: 1000px) {
+  .lp-overview-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Pastille de date des listes d'agenda : le jour en gros, le mois dessous. */
+.lp-date-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-element);
+  background: var(--color-accent-muted);
+  color: var(--color-text-accent);
+  line-height: 1.1;
+}
+
+.lp-date-chip-day {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.lp-date-chip-month {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+}
+
+/* Calendrier : grille du lundi au dimanche, en liste (.lp-cal-list) quand la zone de contenu fait moins de 640px.
+   On mesure le conteneur et pas l'écran : la barre latérale prend 260px jusqu'à 768px de large. */
+.lp-cal-wrap {
+  container-type: inline-size;
+}
+
+.lp-cal {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  border-top: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
+  border-radius: var(--radius-container);
+  overflow: hidden;
+  background: var(--color-background-surface);
+}
+
+.lp-cal-head,
+.lp-cal-day {
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.lp-cal-head {
+  padding: var(--spacing-2);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.lp-cal-day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  min-width: 0;
+  min-height: 112px;
+  padding: var(--spacing-2);
+}
+
+.lp-cal-day[data-outside] {
+  background: var(--color-background-muted);
+}
+
+.lp-cal-num {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.lp-cal-day[data-outside] .lp-cal-num {
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
+.lp-cal-day[data-today] .lp-cal-num {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.lp-cal-chip {
+  overflow: hidden;
+  padding: 2px 6px;
+  border-radius: var(--radius-inner);
+  background: var(--color-background-muted);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.lp-cal-chip[data-kind="shooting"] {
+  background: var(--color-accent-muted);
+  color: var(--color-text-accent);
+  font-weight: 600;
+}
+
+.lp-cal-list {
+  display: none;
+}
+
+@container (max-width: 640px) {
+  .lp-cal {
+    display: none;
+  }
+  .lp-cal-list {
+    display: block;
+  }
+}
+
 /* Couverture d'une galerie tant qu'aucune photo n'est choisie. */
 .lp-cover {
   display: grid;

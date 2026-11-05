@@ -4,13 +4,12 @@ import { EmptyState } from "@astryxdesign/core/EmptyState";
 import { Heading } from "@astryxdesign/core/Heading";
 import { VStack } from "@astryxdesign/core/Stack";
 import { Text } from "@astryxdesign/core/Text";
-import { supabaseConfigured } from "@/lib/supabase/env";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createAdminClient, hasSecretKey } from "@/lib/supabase/admin";
 
 /** Le titre seul : une galerie invitée ne doit pas être indexée. */
 export async function generateMetadata({ params }: PageProps<"/g/[slug]">) {
   const { slug } = await params;
-  if (!supabaseConfigured || !process.env.SUPABASE_SECRET_KEY) return { robots: { index: false } };
+  if (!hasSecretKey()) return { robots: { index: false } };
   const { data } = await createAdminClient().from("galleries").select("title").eq("slug", slug).eq("status", "published").maybeSingle();
   return { title: data?.title ?? "Galerie", robots: { index: false, follow: false } };
 }
@@ -22,7 +21,7 @@ export async function generateMetadata({ params }: PageProps<"/g/[slug]">) {
  */
 export default async function GuestGalleryPage({ params }: PageProps<"/g/[slug]">) {
   const { slug } = await params;
-  if (!supabaseConfigured || !process.env.SUPABASE_SECRET_KEY) notFound();
+  if (!hasSecretKey()) notFound();
 
   const { data: gallery } = await createAdminClient()
     .from("galleries")

@@ -10,5 +10,5 @@ export type Role = AccountRole | "guest";
 
 /** Où envoyer un compte après connexion. */
 export function homeFor(role: AccountRole): string {
-  return role === "photographer" ? "/studio/crm" : "/espace";
+  return role === "photographer" ? "/studio" : "/espace";
 }

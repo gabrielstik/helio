@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Images, ShieldCheck, SquareKanban, type LucideIcon } from "lucide-react";
+import { CalendarDays, Images, LayoutDashboard, ShieldCheck, SquareKanban, type LucideIcon } from "lucide-react";
 import { AppShell } from "@astryxdesign/core/AppShell";
 import { Avatar } from "@astryxdesign/core/Avatar";
 import { SideNav, SideNavHeading, SideNavItem, SideNavSection } from "@astryxdesign/core/SideNav";
@@ -15,10 +15,14 @@ interface NavLink {
   label: string;
   href: string;
   icon: LucideIcon;
+  /** Sélectionné sur cette adresse seulement, pas sur ses sous-pages (la vue d'ensemble est /studio). */
+  isExact?: boolean;
 }
 
 const STUDIO_LINKS: NavLink[] = [
+  { label: "Vue d'ensemble", href: "/studio", icon: LayoutDashboard, isExact: true },
   { label: "CRM", href: "/studio/crm", icon: SquareKanban },
+  { label: "Calendrier", href: "/studio/calendrier", icon: CalendarDays },
   { label: "Galeries", href: "/studio/galeries", icon: Images },
 ];
 
@@ -29,7 +33,7 @@ function Item({ link, pathname }: { link: NavLink; pathname: string }) {
       label={link.label}
       href={link.href}
       icon={<Icon size={16} strokeWidth={1.75} aria-hidden />}
-      isSelected={pathname === link.href || pathname.startsWith(`${link.href}/`)}
+      isSelected={pathname === link.href || (!link.isExact && pathname.startsWith(`${link.href}/`))}
     />
   );
 }
@@ -58,7 +62,7 @@ export function StudioShell({
       sideNav={
         <SideNav
           aria-label="Studio"
-          header={<SideNavHeading icon={<Logo size={24} />} heading={PRODUCT_NAME} subheading={studioName ?? "Studio"} headingHref="/studio/crm" />}
+          header={<SideNavHeading icon={<Logo size={24} />} heading={PRODUCT_NAME} subheading={studioName ?? "Studio"} headingHref="/studio" />}
           footer={
             <HStack gap={2} align="center" justify="between">
               <HStack gap={2} align="center">

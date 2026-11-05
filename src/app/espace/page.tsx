@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FileText, Images } from "lucide-react";
+import { CalendarDays, FileText, Images } from "lucide-react";
 import { Card } from "@astryxdesign/core/Card";
 import { EmptyState } from "@astryxdesign/core/EmptyState";
 import { Heading } from "@astryxdesign/core/Heading";
@@ -8,6 +8,7 @@ import { VStack } from "@astryxdesign/core/Stack";
 import { Token } from "@astryxdesign/core/Token";
 import { GalleryCard } from "@/components/GalleryCard";
 import { PageHeader } from "@/components/PageHeader";
+import { dayOf, shortDay, timeOf } from "@/lib/dates";
 import { DOCUMENT_KIND, DOCUMENT_STATUS, type DocumentKind, type DocumentStatus } from "@/lib/labels";
 import { createClient } from "@/lib/supabase/server";
 
@@ -26,6 +27,13 @@ interface GalleryRow {
   slug: string;
 }
 
+interface EventRow {
+  id: string;
+  title: string;
+  starts_at: string;
+  location: string | null;
+}
+
 /**
  * Accueil de l'espace client. La RLS ne lui renvoie que ses propres lignes :
  * documents envoyés, galeries publiées et débloquées.
@@ -33,17 +41,37 @@ interface GalleryRow {
  */
 export default async function EspacePage() {
   const supabase = await createClient();
-  const [{ data: documentRows }, { data: galleryRows }] = await Promise.all([
+  const [{ data: documentRows }, { data: galleryRows }, { data: eventRows }] = await Promise.all([
     supabase.from("documents").select("id, kind, status, number").order("created_at", { ascending: false }),
     supabase.from("galleries").select("id, title, slug"),
+    supabase.from("client_events").select("id, title, starts_at, location").gte("starts_at", new Date().toISOString()).order("starts_at"),
   ]);
   const documents = (documentRows ?? []) as DocumentRow[];
   const galleries = (galleryRows ?? []) as GalleryRow[];
+  const events = (eventRows ?? []) as EventRow[];
 
   return (
     <div className="lp-capped">
       <VStack gap={8}>
         <PageHeader title="Mon espace" description="Vos documents et vos galeries, partagés par votre photographe." />
+
+        {events.length > 0 && (
+          <VStack gap={3}>
+            <Heading level={2}>Rendez-vous à venir</Heading>
+            <Card padding={1}>
+              <List hasDividers>
+                {events.map((e) => (
+                  <ListItem
+                    key={e.id}
+                    label={e.title}
+                    description={[`${shortDay(dayOf(e.starts_at))} à ${timeOf(e.starts_at)}`, e.location].filter(Boolean).join(" · ")}
+                    startContent={<CalendarDays size={18} strokeWidth={1.75} aria-hidden />}
+                  />
+                ))}
+              </List>
+            </Card>
+          </VStack>
+        )}
 
         <VStack gap={3}>
           <Heading level={2}>Devis, contrat et factures</Heading>

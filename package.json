@@ -8,12 +8,15 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "db:start": "supabase start",
-    "db:reset": "supabase db reset"
+    "theme:build": "astryx theme build src/theme/photos.theme.ts"
   },
   "dependencies": {
+    "@astryxdesign/core": "^0.5.4",
+    "@astryxdesign/theme-neutral": "^0.5.4",
+    "@stylexjs/stylex": "^0.19.1",
     "@supabase/ssr": "^0.12.5",
     "@supabase/supabase-js": "^2.113.0",
+    "lucide-react": "^1.69.0",
     "next": "16.3.4",
     "react": "19.2.8",
     "react-dom": "19.2.8",
@@ -22,6 +25,7 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@astryxdesign/cli": "^0.5.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

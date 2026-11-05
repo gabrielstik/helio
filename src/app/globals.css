@@ -1,35 +1,142 @@
-:root {
-  --bg: #fafaf9;
-  --surface: #ffffff;
-  --border: #e7e5e4;
-  --text: #1c1917;
-  --muted: #78716c;
-  --accent: #1c1917;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  color: var(--text);
-  background: var(--bg);
+@import "@astryxdesign/core/reset.css";
+@import "@astryxdesign/core/astryx.css";
+@import "../theme/photos.css";
+
+/* Le thème ne fait que nommer Figtree ; la police est chargée par next/font (app/layout.tsx). */
+[data-astryx-theme="photos"] {
+  --font-family-body: var(--font-figtree), Figtree, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-heading: var(--font-figtree), Figtree, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-* { box-sizing: border-box; }
-body { margin: 0; }
-a { color: inherit; }
-main { padding: 24px; max-width: 1200px; margin: 0 auto; }
-h1 { font-size: 24px; margin: 0 0 16px; }
-.muted { color: var(--muted); }
+html,
+body {
+  min-height: 100%;
+  background: var(--color-background-body);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-body);
+  -webkit-font-smoothing: antialiased;
+}
 
-.topbar { display: flex; gap: 16px; align-items: center; padding: 12px 24px; border-bottom: 1px solid var(--border); background: var(--surface); }
-.topbar nav { display: flex; gap: 16px; flex: 1; }
-.topbar nav a { text-decoration: none; }
+/* ------------------------------------------------------------------ */
+/* Marque                                                               */
+/* ------------------------------------------------------------------ */
 
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-.button { display: inline-block; background: var(--accent); color: #fff; border: 0; border-radius: 6px; padding: 8px 14px; font: inherit; cursor: pointer; text-decoration: none; }
-.button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
-input { font: inherit; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; width: 100%; }
-form.stack { display: grid; gap: 12px; max-width: 360px; }
+.lp-logo {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-element);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
 
-.kanban { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
-.kanban-column { flex: 0 0 260px; background: #f5f5f4; border: 1px solid var(--border); border-radius: 8px; padding: 12px; min-height: 320px; }
-.kanban-column h2 { font-size: 14px; margin: 0 0 12px; display: flex; justify-content: space-between; }
+/* ------------------------------------------------------------------ */
+/* Pages hors app : accueil, connexion, galerie invitée, 404            */
+/* ------------------------------------------------------------------ */
 
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-.notice { background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; }
+.lp-page {
+  width: 100%;
+  max-width: 1080px;
+  margin-inline: auto;
+  padding-inline: var(--spacing-5);
+}
+
+.lp-site-header {
+  padding-block: var(--spacing-4);
+  border-bottom: var(--border-width, 1px) solid var(--color-border);
+}
+
+.lp-hero {
+  padding-block: var(--spacing-10) var(--spacing-8);
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.lp-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-4);
+  padding-block-end: var(--spacing-10);
+}
+
+.lp-feature-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-element);
+  background: var(--color-accent-muted);
+  color: var(--color-text-accent);
+}
+
+.lp-centered {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: var(--spacing-6) var(--spacing-4);
+}
+
+@media (max-width: 760px) {
+  .lp-features {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lp-hero {
+    padding-block: var(--spacing-8) var(--spacing-6);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* App : en-tête de page, kanban, grille de galeries                    */
+/* ------------------------------------------------------------------ */
+
+/* Espaces à barre du haut (client, back-office) : une colonne de lecture centrée. */
+.lp-capped {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+/* Les colonnes gardent leur largeur ; c'est le tableau qui défile. */
+.lp-board {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  overflow-x: auto;
+  padding-block-end: var(--spacing-2);
+}
+
+.lp-board-column {
+  flex: 0 0 272px;
+}
+
+.lp-board-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  min-height: 96px;
+}
+
+/* Colonne vide : la place où poser une carte, en pointillés. */
+.lp-board-empty {
+  display: grid;
+  place-items: center;
+  min-height: 96px;
+  border: 1px dashed var(--color-border-emphasized);
+  border-radius: var(--radius-element);
+}
+
+.lp-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--spacing-4);
+}
+
+/* Couverture d'une galerie tant qu'aucune photo n'est choisie. */
+.lp-cover {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-element);
+  background: var(--color-background-muted);
+  color: var(--color-icon-secondary);
+}

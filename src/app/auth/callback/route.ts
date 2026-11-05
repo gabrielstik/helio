@@ -4,7 +4,7 @@ import { homeFor } from "@/lib/roles";
 import { APP_URL } from "@/lib/site";
 import { createClient } from "@/lib/supabase/server";
 
-/** Échange le code PKCE du lien magique contre une session, puis ouvre l'espace du rôle. */
+/** Échange le code PKCE d'un lien e-mail (invitation, réinitialisation) contre une session, puis ouvre l'espace du rôle. */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");

@@ -1,11 +1,19 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import { Images } from "lucide-react";
+import { EmptyState } from "@astryxdesign/core/EmptyState";
+import { VStack } from "@astryxdesign/core/Stack";
+import { GalleryCard } from "@/components/GalleryCard";
+import { PageHeader } from "@/components/PageHeader";
+import { plural, type GalleryStatus } from "@/lib/labels";
 import { createClient } from "@/lib/supabase/server";
+
+export const metadata: Metadata = { title: "Galeries" };
 
 interface GalleryRow {
   id: string;
   title: string;
   slug: string;
-  status: string;
+  status: GalleryStatus;
 }
 
 /**
@@ -19,22 +27,24 @@ export default async function GalleriesPage() {
   const galleries = (data ?? []) as GalleryRow[];
 
   return (
-    <main>
-      <h1>Galeries</h1>
+    <VStack gap={6}>
+      <PageHeader
+        title="Galeries"
+        description={galleries.length > 0 ? plural(galleries.length, "galerie", "galeries") : "Les photos que vous livrez à vos clients."}
+      />
       {galleries.length === 0 ? (
-        <p className="muted">Aucune galerie pour l&apos;instant.</p>
+        <EmptyState
+          icon={<Images size={32} strokeWidth={1.5} />}
+          title="Aucune galerie pour l'instant"
+          description="Les galeries que vous préparez pour vos clients apparaîtront ici, avec leur lien de partage."
+        />
       ) : (
-        <div className="grid">
+        <div className="lp-gallery-grid">
           {galleries.map((g) => (
-            <Link key={g.id} href={`/studio/galeries/${g.id}`} className="card">
-              <strong>{g.title}</strong>
-              <div className="muted">
-                {g.status} · /g/{g.slug}
-              </div>
-            </Link>
+            <GalleryCard key={g.id} title={g.title} href={`/studio/galeries/${g.id}`} status={g.status} detail={`/g/${g.slug}`} />
           ))}
         </div>
       )}
-    </main>
+    </VStack>
   );
 }

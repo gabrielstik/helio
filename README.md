@@ -4,19 +4,18 @@ CRM en kanban et galeries clients pour photographes. Voir `AGENTS.md` pour l'arc
 
 ## Démarrer en local
 
-Prérequis : Node 22 et Docker (pour Supabase en local).
+Prérequis : Node 22 et un projet Supabase hébergé (pas de Supabase local). Les migrations de
+`supabase/migrations/` s'appliquent sur ce projet.
 
 ```bash
 npm install
-npm run db:start        # Supabase local ; affiche l'URL et les clés
-cp .env.example .env.local   # puis y coller l'URL, la clé publishable et la clé secrète
-npm run db:reset        # applique supabase/migrations
+cp .env.example .env.local   # puis y coller l'URL, la clé publishable et la clé secrète du projet
 npm run dev
 ```
 
-L'app tourne sur http://localhost:3000. Les e-mails de connexion locaux arrivent dans Mailpit
-(http://127.0.0.1:54324). Le premier compte créé est un photographe ; ses colonnes de kanban sont créées
-automatiquement.
+L'app tourne sur http://localhost:3000. La connexion se fait par e-mail et mot de passe ; les comptes se
+créent pour l'instant dans le dashboard Supabase (Authentication → Users → Add user, en cochant « Auto
+Confirm User »). Un nouveau compte est photographe ; ses colonnes de kanban sont créées automatiquement.
 
 ## Espaces
 
@@ -30,4 +29,4 @@ automatiquement.
 
 ## Pas encore fait
 
-Aucun compte Supabase, Vercel, Stripe ou Resend n'est créé et rien n'est déployé.
+Aucun compte Vercel, Stripe ou Resend n'est créé et rien n'est déployé.

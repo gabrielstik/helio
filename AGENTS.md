@@ -20,6 +20,14 @@ Cette version de Next.js a des changements incompatibles avec ce que vous connai
 Le rôle est fixé à l'inscription par le trigger `handle_new_user` (photographe par défaut) et ne se change
 que côté serveur. Chaque espace vérifie le rôle dans son layout (`requireRole`, `src/lib/auth.ts`).
 
+## Interface
+
+Astryx (`@astryxdesign/core`, le design system de SpeakCAD) avec le thème `src/theme/photos.theme.ts`, compilé
+par `npm run theme:build` : ne pas éditer `photos.css`, `photos.js` ni les `.d.ts` générés. Avant d'utiliser un
+composant, lire ses props (`npx astryx component <Nom>`) ; les modèles de pages : `npx astryx template --list`.
+Pas de `stylex.create` (aucun compilateur StyleX) : la mise en page sur mesure passe par les classes `lp-*` de
+`src/app/globals.css`, avec les tokens (`var(--spacing-*)`, `var(--color-*)`). Icônes : lucide-react.
+
 ## Base
 
 Les migrations sont dans `supabase/migrations/`. La RLS est active sur toutes les tables : toute nouvelle
